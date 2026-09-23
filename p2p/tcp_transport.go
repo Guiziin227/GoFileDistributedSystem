@@ -8,7 +8,19 @@ import (
 
 // TCPPeer representa um nó remoto em uma conexão TCP.
 type TCPPeer struct {
+	// conn é a conexao subjacente ao peer.
 	conn net.Conn
+
+	// se nós discarmos e recuperamos a conexão, então outbound == true.
+	// se nós aceitarmos e recuperarmos a conexão, então outbound == false.
+	outbound bool
+}
+
+func NewTCPPeer(conn net.Conn, outbound bool) *TCPPeer {
+	return &TCPPeer{
+		conn:     conn,
+		outbound: outbound,
+	}
 }
 
 type TCPTransport struct {
@@ -50,5 +62,8 @@ func (t *TCPTransport) startAcceptLoop() {
 }
 
 func (t *TCPTransport) handleConn(conn net.Conn) {
-	fmt.Printf("New connection from %+v\n", conn)
+
+	peer := NewTCPPeer(conn, true)
+
+	fmt.Printf("New connection from %+v\n", peer)
 }
