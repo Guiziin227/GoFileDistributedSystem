@@ -47,7 +47,7 @@ func (t *TCPTransport) ListenAndAccept() error {
 
 	var err error
 
-	t.listener, err = net.Listen("tcp", t.ListenAddr)
+	t.listener, err = net.Listen("tcp4", t.ListenAddr)
 	if err != nil {
 		return err
 	}
